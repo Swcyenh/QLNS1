@@ -12,8 +12,8 @@ using QLNS1.Data;
 namespace QLNS1.Migrations
 {
     [DbContext(typeof(QLNS1Context))]
-    [Migration("20231109141929_Sach1")]
-    partial class Sach1
+    [Migration("20231110070539_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -226,6 +226,63 @@ namespace QLNS1.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("QLNS1.Models.NhapSach", b =>
+                {
+                    b.Property<int>("SachId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AmountImport")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateImport")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("SachId", "Id");
+
+                    b.HasIndex("SachId")
+                        .IsUnique();
+
+                    b.ToTable("Nhap");
+                });
+
+            modelBuilder.Entity("QLNS1.Models.Sach", b =>
+                {
+                    b.Property<int>("SachId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SachId"), 1L, 1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SachId");
+
+                    b.ToTable("Sach");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -274,6 +331,21 @@ namespace QLNS1.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("QLNS1.Models.NhapSach", b =>
+                {
+                    b.HasOne("QLNS1.Models.Sach", null)
+                        .WithOne("NhapSach")
+                        .HasForeignKey("QLNS1.Models.NhapSach", "SachId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("QLNS1.Models.Sach", b =>
+                {
+                    b.Navigation("NhapSach")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

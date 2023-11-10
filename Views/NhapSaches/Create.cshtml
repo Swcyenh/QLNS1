@@ -1,0 +1,55 @@
+﻿@model QLNS1.Models.NhapSach
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>NhapSach</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <table id="AddSach">
+                <tr>
+                    <td>
+                        <div class="form-group pe-2">
+                            <label asp-for="TenSach" class="control-label">Ten Gia</label>
+                            <input asp-for="TenSach"/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group pe-2 ">
+                            <label asp-for="TacGia" class="control-label">Tac Gia</label>
+                            <input asp-for="TacGia"/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group pe-2">
+                            <label asp-for="TheLoai" class="control-label">The Loai</label>
+                            <input asp-for="TheLoai" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group pe-2">
+                            <label asp-for="AmountImport" class="control-label">So Luong Nhap</label>
+                            <input asp-for="AmountImport" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <hr/>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    document.getElementById
+</script>
