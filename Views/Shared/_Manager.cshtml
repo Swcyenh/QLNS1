@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - QLNS1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/QLNS1.styles.css" asp-append-version="true" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark  min-vh-100 align-items-center align-items-sm-start ">
+                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline">Menu</span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li>
+                           <a class=" btn btn-outline-0 border-top border-bottom pb-3 pt-3 "  asp-controller="Saches" asp-action="Create">Them Sach Vao Cua Hang</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-outline-0 border-top border-bottom pb-3 pt-3" asp-controller="Saches" asp-action="Index">Xem Xoa Sua Sach</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-outline-0 border-top border-bottom pb-3 pt-3" asp-controller="NhapSaches" asp-action="Create">Nhap Sach</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-outline-0 border-top border-bottom pb-3 pt-3" asp-controller="Saches" asp-action="Display">Hien Thi Trang Web</a>
+                        </li>
+
+                    </ul>
+                    <hr>
+                    <div class="pt-5">
+                        <partial name="_LoginPartial" />
+                    </div>
+            </div>
+            <div class="col py-3">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

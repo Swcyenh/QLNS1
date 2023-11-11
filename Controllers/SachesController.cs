@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using QLNS1.Models;
 
 namespace QLNS1.Controllers
 {
+    [Authorize(Roles = "Admin,Manager")]
     public class SachesController : Controller
     {
         private readonly QLNS1Context _context;
@@ -44,6 +46,7 @@ namespace QLNS1.Controllers
 
             return View(sach);
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Display()
         {
             if (_context.Sach == null)
@@ -59,24 +62,20 @@ namespace QLNS1.Controllers
 
             return View(sach);
         }
-        // GET: Saches/Create
+
         public IActionResult Create()
         {
             return View();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         public async Task<IActionResult> Create([Bind("Id,Name,Author,Type,Amount,Price,Picture")] Sach sach)
         {
-            if (ModelState.IsValid)
-            {
+
                 _context.Add(sach);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(sach);
+
         }
 
         // GET: Saches/Edit/5

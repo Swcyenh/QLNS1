@@ -1,7 +1,10 @@
-﻿namespace QLNS1.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace QLNS1.Models
 {
     public class Sach
     {
+        [Required]
         public int SachId { get; set; }
         public string Name { get; set; }
         public string Author { get; set; }

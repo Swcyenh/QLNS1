@@ -27,39 +27,37 @@ namespace QLNS1.Controllers
                           Problem("Entity set 'QLNS1Context.Nhap'  is null.");
         }
 
-        // GET: NhapSaches/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Nhap == null)
-            {
-                return NotFound();
-            }
+`
 
-            var nhapSach = await _context.Nhap
-                .FirstOrDefaultAsync(m => m.SachId == id);
-            if (nhapSach == null)
-            {
-                return NotFound();
-            }
 
-            return View(nhapSach);
-        }
-
-        // GET: NhapSaches/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: NhapSaches/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,SachId,AmountImport,DateImport")] NhapSach nhapSach)
         {
             if (ModelState.IsValid)
             {
+                if (nhapSach.AmountImport <100)
+                {
+                    ModelState.AddModelError("AmountImport", "Số lượng nhập không được bé hơn 100");
+                    return View(nhapSach);
+                }
+                else
+                { 
+                    var sach = await _context.Sach.FindAsync(nhapSach.SachId);
+                    if ((sach == null) || (sach.SachId != nhapSach.SachId))
+                    {
+                        ModelState.AddModelError("SachId", "Mã sách không tồn tại");
+                        return View(nhapSach);
+                    }
+                    else
+                    {
+                        sach.Amount += nhapSach.AmountImport;
+                    }
+                }
                 _context.Add(nhapSach);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -67,93 +65,6 @@ namespace QLNS1.Controllers
             return View(nhapSach);
         }
 
-        // GET: NhapSaches/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Nhap == null)
-            {
-                return NotFound();
-            }
-
-            var nhapSach = await _context.Nhap.FindAsync(id);
-            if (nhapSach == null)
-            {
-                return NotFound();
-            }
-            return View(nhapSach);
-        }
-
-        // POST: NhapSaches/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SachId,AmountImport,DateImport")] NhapSach nhapSach)
-        {
-            if (id != nhapSach.SachId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(nhapSach);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!NhapSachExists(nhapSach.SachId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(nhapSach);
-        }
-
-        // GET: NhapSaches/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Nhap == null)
-            {
-                return NotFound();
-            }
-
-            var nhapSach = await _context.Nhap
-                .FirstOrDefaultAsync(m => m.SachId == id);
-            if (nhapSach == null)
-            {
-                return NotFound();
-            }
-
-            return View(nhapSach);
-        }
-
-        // POST: NhapSaches/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Nhap == null)
-            {
-                return Problem("Entity set 'QLNS1Context.Nhap'  is null.");
-            }
-            var nhapSach = await _context.Nhap.FindAsync(id);
-            if (nhapSach != null)
-            {
-                _context.Nhap.Remove(nhapSach);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool NhapSachExists(int id)
         {

@@ -5,27 +5,42 @@
 }
 
     <div class="row">
-        <form asp-action="Create" method="post">
-            <div class="form-group col-3">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-            </div>
-             <div class="form-group col-3">
-                 <label asp-for="Author" class="control-label"></label>
-                <input asp-for="Author" class="form-control" />
-             </div>
-             <div class="form-group col-3">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-             </div>
-             <div class="form-group col-3">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-             </div>
-            <div class="form-group col-3">
-                <label asp-for="Picture" class="control-label"></label>
-                <input asp-for="Picture" class="form-control" />
-            </div>
+        <form asp-action="Create">
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-group fe-2">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group fe-2">
+                            <label asp-for="Author" class="control-label"></label>
+                            <input asp-for="Author" class="form-control" />
+                        </div>
+                    </td>
+                    <td>
+                         <div class="form-group fe-2">
+                            <label asp-for="Type" class="control-label"></label>
+                            <input asp-for="Type" class="form-control" />
+                         </div>
+                    </td>
+                    <td>
+                        <div class="form-group fe-2">
+                            <label asp-for="Amount" class="control-label"></label>
+                            <input asp-for="Amount" class="form-control" />
+                        </div>      
+                    </td>
+                    <td>
+                        <div class="form-group fe-2">
+                            <label asp-for="Picture" class="control-label"></label>
+                            <input asp-for="Picture" class="form-control" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <hr/>
              <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
              </div>

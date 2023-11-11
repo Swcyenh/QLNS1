@@ -1,3 +1,23 @@
-﻿@{
-    Layout = "_Layout";
+﻿@using Microsoft.AspNetCore.Identity;
+
+@{
+    var user = Context.User;
+    var isAuthenticated = user.Identity.IsAuthenticated;
+    var isManager = user.IsInRole("Manager");
+
+    if (isAuthenticated)
+    {
+        if (isManager)
+        {
+            Layout = "_Manager";
+        }
+        else
+        {
+            Layout = "_Layout";
+        }
+    }
+    else
+    {
+        Layout = "_Layout"; // Use a public layout for unauthenticated users
+    }
 }

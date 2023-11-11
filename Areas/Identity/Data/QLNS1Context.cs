@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using QLNS1.Models;
 namespace QLNS1.Data;
 
-public class QLNS1Context : IdentityDbContext<IdentityUser>
+public class QLNS1Context : IdentityDbContext<User>
 {
     public QLNS1Context(DbContextOptions<QLNS1Context> options)
         : base(options)
