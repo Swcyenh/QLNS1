@@ -27,14 +27,13 @@ namespace QLNS1.Controllers
                           Problem("Entity set 'QLNS1Context.Nhap'  is null.");
         }
 
-`
 
 
         public IActionResult Create()
         {
             return View();
         }
-
+        //TDOO: When value come from form, check amount import > 100 and check sachId exist and Sach.Amount < 200 then Sacj+= AmountImport
         [HttpPost]
         public async Task<IActionResult> Create([Bind("Id,SachId,AmountImport,DateImport")] NhapSach nhapSach)
         {
@@ -47,8 +46,8 @@ namespace QLNS1.Controllers
                 }
                 else
                 { 
-                    var sach = await _context.Sach.FindAsync(nhapSach.SachId);
-                    if ((sach == null) || (sach.SachId != nhapSach.SachId))
+                    var sach = await _context.Sach.FindAsync(nhapSach.Id);
+                    if ((sach == null) || (sach.SachId != nhapSach.Id))
                     {
                         ModelState.AddModelError("SachId", "Mã sách không tồn tại");
                         return View(nhapSach);
@@ -68,7 +67,7 @@ namespace QLNS1.Controllers
 
         private bool NhapSachExists(int id)
         {
-          return (_context.Nhap?.Any(e => e.SachId == id)).GetValueOrDefault();
+          return (_context.Nhap?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

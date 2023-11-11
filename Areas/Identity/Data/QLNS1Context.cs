@@ -18,7 +18,7 @@ public class QLNS1Context : IdentityDbContext<User>
         // Customize the ASP.NET Identity model and override the defaults if needed.
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
-        builder.Entity<NhapSach>().HasKey(o => new { o.SachId, o.Id });
+
     }
     public DbSet<QLNS1.Models.Sach> Sach { get; set; }
     public DbSet<QLNS1.Models.NhapSach> Nhap { get; set; }

@@ -161,11 +161,11 @@ namespace QLNS1.Migrations
 
             modelBuilder.Entity("QLNS1.Models.NhapSach", b =>
                 {
-                    b.Property<int>("SachId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AmountImport")
                         .HasColumnType("int");
@@ -185,10 +185,7 @@ namespace QLNS1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SachId", "Id");
-
-                    b.HasIndex("SachId")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.ToTable("Nhap");
                 });
@@ -212,6 +209,9 @@ namespace QLNS1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NhapSachId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Picture")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -224,6 +224,8 @@ namespace QLNS1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SachId");
+
+                    b.HasIndex("NhapSachId");
 
                     b.ToTable("Sach");
                 });
@@ -352,19 +354,15 @@ namespace QLNS1.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QLNS1.Models.NhapSach", b =>
-                {
-                    b.HasOne("QLNS1.Models.Sach", null)
-                        .WithOne("NhapSach")
-                        .HasForeignKey("QLNS1.Models.NhapSach", "SachId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("QLNS1.Models.Sach", b =>
                 {
-                    b.Navigation("NhapSach")
+                    b.HasOne("QLNS1.Models.NhapSach", "NhapSach")
+                        .WithMany()
+                        .HasForeignKey("NhapSachId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("NhapSach");
                 });
 #pragma warning restore 612, 618
         }

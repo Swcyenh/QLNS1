@@ -6,11 +6,11 @@ namespace QLNS1.Models
     public class NhapSach
     {
         public int Id { get; set; }
-        [ForeignKey("Sach")]
-        [Required(ErrorMessage = "Vui lòng nhập mã sách")]
-        public int SachId { get; set; }
+        [Required]
         public string TenSach { get; set; }
+        [Required]
         public string TacGia { get; set; }
+        [Required]
         public string TheLoai { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập số lượng nhập")]
         public int AmountImport { get; set; }
