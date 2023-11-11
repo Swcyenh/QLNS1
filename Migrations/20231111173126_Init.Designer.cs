@@ -12,7 +12,7 @@ using QLNS1.Data;
 namespace QLNS1.Migrations
 {
     [DbContext(typeof(QLNS1Context))]
-    [Migration("20231111144934_Init")]
+    [Migration("20231111173126_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,6 +161,40 @@ namespace QLNS1.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("QLNS1.Models.Invoice", b =>
+                {
+                    b.Property<int>("MaHoaDon")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaHoaDon"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Gia")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoLuong")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TenKhachHang")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenSach")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TheLoai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MaHoaDon");
+
+                    b.ToTable("Invoice");
+                });
+
             modelBuilder.Entity("QLNS1.Models.NhapSach", b =>
                 {
                     b.Property<int>("Id")
@@ -211,9 +245,6 @@ namespace QLNS1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NhapSachId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Picture")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -226,8 +257,6 @@ namespace QLNS1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SachId");
-
-                    b.HasIndex("NhapSachId");
 
                     b.ToTable("Sach");
                 });
@@ -354,17 +383,6 @@ namespace QLNS1.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("QLNS1.Models.Sach", b =>
-                {
-                    b.HasOne("QLNS1.Models.NhapSach", "NhapSach")
-                        .WithMany()
-                        .HasForeignKey("NhapSachId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("NhapSach");
                 });
 #pragma warning restore 612, 618
         }

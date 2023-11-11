@@ -15,11 +15,9 @@ public class QLNS1Context : IdentityDbContext<User>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
-
+        
     }
     public DbSet<QLNS1.Models.Sach> Sach { get; set; }
     public DbSet<QLNS1.Models.NhapSach> Nhap { get; set; }
+    public DbSet<QLNS1.Models.Invoice> Invoice { get; set; }
 }

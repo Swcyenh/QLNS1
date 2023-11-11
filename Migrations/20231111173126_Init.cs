@@ -51,6 +51,24 @@ namespace QLNS1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Invoice",
+                columns: table => new
+                {
+                    MaHoaDon = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TenKhachHang = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TenSach = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TheLoai = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SoLuong = table.Column<int>(type: "int", nullable: false),
+                    Gia = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoice", x => x.MaHoaDon);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Nhap",
                 columns: table => new
                 {
@@ -65,6 +83,24 @@ namespace QLNS1.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Nhap", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sach",
+                columns: table => new
+                {
+                    SachId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sach", x => x.SachId);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,31 +209,6 @@ namespace QLNS1.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Sach",
-                columns: table => new
-                {
-                    SachId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NhapSachId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sach", x => x.SachId);
-                    table.ForeignKey(
-                        name: "FK_Sach_Nhap_NhapSachId",
-                        column: x => x.NhapSachId,
-                        principalTable: "Nhap",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -236,11 +247,6 @@ namespace QLNS1.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sach_NhapSachId",
-                table: "Sach",
-                column: "NhapSachId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -261,6 +267,12 @@ namespace QLNS1.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Invoice");
+
+            migrationBuilder.DropTable(
+                name: "Nhap");
+
+            migrationBuilder.DropTable(
                 name: "Sach");
 
             migrationBuilder.DropTable(
@@ -268,9 +280,6 @@ namespace QLNS1.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Nhap");
         }
     }
 }
