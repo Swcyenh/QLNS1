@@ -21,7 +21,6 @@ namespace QLNS1.Controllers
             _context = context;
         }
 
-        // GET: Saches
         public async Task<IActionResult> Index()
         {
               return _context.Sach != null ? 
@@ -29,7 +28,6 @@ namespace QLNS1.Controllers
                           Problem("Entity set 'QLNS1Context.Sach'  is null.");
         }
 
-        // GET: Saches/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Sach == null)

@@ -12,6 +12,5 @@ namespace QLNS1.Models
         public int Amount { get; set; }
         public int Price { get; set; }
         public string Picture { get; set; }
-        public virtual NhapSach NhapSach { get; set; }
     }
 }

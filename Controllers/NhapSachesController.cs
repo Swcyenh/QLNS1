@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,22 +21,21 @@ namespace QLNS1.Controllers
         }
 
         // GET: NhapSaches
+
         public async Task<IActionResult> Index()
         {
-              return _context.Nhap != null ? 
-                          View(await _context.Nhap.ToListAsync()) :
-                          Problem("Entity set 'QLNS1Context.Nhap'  is null.");
+            return _context.Sach != null ?
+                        View(await _context.Sach.ToListAsync()) :
+                        Problem("Entity set 'QLNS1Context.Sach'  is null.");
         }
-
-
 
         public IActionResult Create()
         {
             return View();
         }
-        //TDOO: When value come from form, check amount import > 100 and check sachId exist and Sach.Amount < 200 then Sacj+= AmountImport
+        //TDOO: When value come from form, check amount import > 100 and check sachId exist and Sach.Amount < 200 then Sach += AmountImport
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id,SachId,AmountImport,DateImport")] NhapSach nhapSach)
+        public async Task<IActionResult> Create([Bind("Id,TenSach,TacGia,TheLoai,AmountImport,DateImport")] NhapSach nhapSach)
         {
             if (ModelState.IsValid)
             {
@@ -45,21 +45,31 @@ namespace QLNS1.Controllers
                     return View(nhapSach);
                 }
                 else
-                { 
-                    var sach = await _context.Sach.FindAsync(nhapSach.Id);
-                    if ((sach == null) || (sach.SachId != nhapSach.Id))
+                {
+
+                    var sach = _context.Sach.FirstOrDefault(s => s.Name == nhapSach.TenSach  && s.Author == nhapSach.TacGia && s.Type == nhapSach.TheLoai);
+                    if (sach == null)
                     {
-                        ModelState.AddModelError("SachId", "Mã sách không tồn tại");
+                        ModelState.AddModelError("Id", "Sách không tồn tại");
                         return View(nhapSach);
                     }
                     else
                     {
+                        if (sach.Amount >= 200)
+                        {
+                            ModelState.AddModelError("AmountImport", "Sách du");
+                            return View(nhapSach);
+                        }
+                        nhapSach.DateImport = DateTime.Now;
                         sach.Amount += nhapSach.AmountImport;
+                        Console.WriteLine(nhapSach);
+                        _context.Add(nhapSach);
+                        await _context.SaveChangesAsync();
+                        
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                _context.Add(nhapSach);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
             }
             return View(nhapSach);
         }
