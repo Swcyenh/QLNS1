@@ -20,4 +20,5 @@ public class QLNS1Context : IdentityDbContext<User>
     public DbSet<QLNS1.Models.Sach> Sach { get; set; }
     public DbSet<QLNS1.Models.NhapSach> Nhap { get; set; }
     public DbSet<QLNS1.Models.Invoice> Invoice { get; set; }
+    public DbSet<QLNS1.Models.ThuTien> ThuTien { get; set; }
 }

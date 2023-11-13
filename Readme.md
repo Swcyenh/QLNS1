@@ -10,10 +10,11 @@
 	- Add Authorization For Manager (check)
 	- Manager can Add, Delete, Update, View All (check)
 	- User can View From Display (check)
-	- 
+	- Add Phieu Thu Tien (check)
 	- Mangager can Add but can't Delete, Update, View All in NhapSaches
 	- Admin can View everything
-	- 
+# Daily (delete in the next day)
+	- Tinh chinh register lan thu n
 # Rant
 	- CLM bo m init la cai migration chac 50 me roi
 # Run

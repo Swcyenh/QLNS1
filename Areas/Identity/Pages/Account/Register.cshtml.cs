@@ -29,6 +29,7 @@ namespace QLNS1.Areas.Identity.Pages.Account
         private readonly IUserStore<User> _userStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUserEmailStore<User> _emailStore;
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
@@ -39,6 +40,7 @@ namespace QLNS1.Areas.Identity.Pages.Account
             _userManager = userManager;
             _userStore = userStore;
             _signInManager = signInManager;
+            _emailStore = GetEmailStore();
             _logger = logger;
             _roleManager = roleManager;
         }
@@ -96,6 +98,8 @@ namespace QLNS1.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
             public string Role { get; set; }
+            public string Address { get; set; }
+            public string Email { get; set; }
         }
 
 
@@ -117,14 +121,24 @@ namespace QLNS1.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
+                user.Address = Input.Address;
                 await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
-                
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 Console.WriteLine(user);
                 if (result.Succeeded)
                 {
+
                     _logger.LogInformation("User created a new account with password.");
+                    if (Input.Role == null)
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.Role);
+                    }
                     var userId = await _userManager.GetUserIdAsync(user);
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
@@ -153,6 +167,13 @@ namespace QLNS1.Areas.Identity.Pages.Account
             }
         }
 
-
+        private IUserEmailStore<User> GetEmailStore()
+        {
+            if (!_userManager.SupportsUserEmail)
+            {
+                throw new NotSupportedException("The default UI requires a user store with email support.");
+            }
+            return (IUserEmailStore<User>)_userStore;
+        }
     }
 }

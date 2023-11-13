@@ -5,6 +5,7 @@ namespace QLNS1.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
+        public string Address { get;set;}
+        public int TienNo { get; set; }
     }
 }
