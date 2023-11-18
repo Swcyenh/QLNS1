@@ -7,5 +7,6 @@ namespace QLNS1.Models
         public string LastName { get; set; }
         public string Address { get;set;}
         public int TienNo { get; set; }
+        public string NgayNo { get; set;}
     }
 }

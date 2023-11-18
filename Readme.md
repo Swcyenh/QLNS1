@@ -11,10 +11,14 @@
 	- Manager can Add, Delete, Update, View All (check)
 	- User can View From Display (check)
 	- Add Phieu Thu Tien (check)
+	- Add Hoa Don
 	- Mangager can Add but can't Delete, Update, View All in NhapSaches
 	- Admin can View everything
 # Daily (delete in the next day)
-	- Tinh chinh register lan thu n
+	- Complete Hoa Don
+	- Add Bao Cao Cong No
+		+ Idea: Khach Hang, No Dau Thang, Phat Sinh, No Cuoi Thang, Dung ID de truy ra ten khach hang va so tien no
+	- Config Hoa Don to No or not
 # Rant
 	- CLM bo m init la cai migration chac 50 me roi
 # Run

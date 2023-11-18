@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLNS1.Data;
 
@@ -11,9 +12,10 @@ using QLNS1.Data;
 namespace QLNS1.Migrations
 {
     [DbContext(typeof(QLNS1Context))]
-    partial class QLNS1ContextModelSnapshot : ModelSnapshot
+    [Migration("20231118011737_Update_Invoice_3")]
+    partial class Update_Invoice_3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,6 +190,10 @@ namespace QLNS1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TheLoai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

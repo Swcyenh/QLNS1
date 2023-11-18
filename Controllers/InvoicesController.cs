@@ -32,31 +32,57 @@ namespace QLNS1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("MaHoaDon,TenKhachHang,TenSach,TheLoai,SoLuong,Gia,Date")] Invoice invoice)
+        public async Task<IActionResult> Create([Bind("MaHoaDon,TenKhachHang,TenSach,TheLoai,SoLuong,Gia,Date,sdt,Debt")] Invoice invoice)
         {
             if (ModelState.IsValid)
             {
                 var sach = _context.Sach.FirstOrDefault(s => s.Name == invoice.TenSach && s.Type == invoice.TheLoai);
-                var tempsach = sach.Amount;
-                if ( tempsach - invoice.SoLuong  >= 10)
+                if (sach != null)
                 {
-                    invoice.Gia = sach.Price * invoice.SoLuong;
-                    invoice.Date = DateTime.Now;
-                    _context.Add(invoice);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    ModelState.AddModelError("SoLuong", "Số lượng sách không đủ");
-                    return View(invoice);
+                    var tempsach = sach.Amount;
+                    Console.WriteLine(tempsach);
+                    if ( tempsach - invoice.SoLuong  >= 10)
+                    {
+                        if (invoice.Debt == 0)
+                        {
+                            invoice.Gia = sach.Price * invoice.SoLuong;
+                            invoice.Date = DateTime.Now;
+                            sach.Amount -= invoice.SoLuong;
+                            _context.Add(invoice);
+                            _context.Update(sach);
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction(nameof(Index));
+
+                        }
+                        else
+                        {
+                            //TODO: update user debt
+                            var user = _context.Users.FirstOrDefault(u =>  u.PhoneNumber == invoice.sdt);
+                            invoice.Gia = sach.Price * invoice.SoLuong;
+                            invoice.Date = DateTime.Now;
+                            sach.Amount -= invoice.SoLuong;
+                            user.TienNo += invoice.Gia;
+                            user.NgayNo = DateTime.Now.ToString();
+                            _context.Add(invoice);
+                            _context.Update(sach);
+                            _context.Update(user);
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction(nameof(Index));
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("SoLuong", "Số lượng sách không đủ");
+                        return View(invoice);
+                    }
+
                 }
                 
             }
-            ModelState.AddModelError("SoLuong", "Số lượng sách không đủ");
             return View(invoice);
         }
 
+        
         private bool InvoiceExists(int id)
         {
           return (_context.Invoice?.Any(e => e.MaHoaDon == id)).GetValueOrDefault();

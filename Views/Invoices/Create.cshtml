@@ -33,6 +33,19 @@
                 <span asp-validation-for="SoLuong" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="sdt" class="control-label"></label>
+                <input asp-for="sdt" class="form-control" />
+                <span asp-validation-for="sdt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Debt" class="control-label"></label>
+                <br />
+                <select asp-for="Debt">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
