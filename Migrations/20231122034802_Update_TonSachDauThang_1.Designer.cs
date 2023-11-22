@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLNS1.Data;
 
@@ -11,9 +12,10 @@ using QLNS1.Data;
 namespace QLNS1.Migrations
 {
     [DbContext(typeof(QLNS1Context))]
-    partial class QLNS1ContextModelSnapshot : ModelSnapshot
+    [Migration("20231122034802_Update_TonSachDauThang_1")]
+    partial class Update_TonSachDauThang_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,9 +216,6 @@ namespace QLNS1.Migrations
                     b.Property<DateTime>("DateImport")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SachSauNhap")
-                        .HasColumnType("int");
-
                     b.Property<string>("TacGia")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -314,7 +313,7 @@ namespace QLNS1.Migrations
 
                     b.HasKey("ThangNam");
 
-                    b.ToTable("TonSachDauThang");
+                    b.ToTable("TienDauThang");
                 });
 
             modelBuilder.Entity("QLNS1.Models.User", b =>

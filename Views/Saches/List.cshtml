@@ -1,0 +1,20 @@
+﻿@model List<HienHoaDon>
+
+<!-- Your HTML code to display the values -->
+<table>
+    <tr>
+        <th>TenSach</th>
+        <th>TonCuoiNam</th>
+        <th>PhatSinh</th>
+        <th>TonDauNam</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.TenSach</td>
+            <td>@item.TonCuoiNam</td>
+            <td>@item.PhatSinh</td>
+            <td>@item.TonDauNam</td>
+        </tr>
+    }
+</table>

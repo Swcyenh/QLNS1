@@ -11,16 +11,20 @@
 	- Manager can Add, Delete, Update, View All (check)
 	- User can View From Display (check)
 	- Add Phieu Thu Tien (check)
-	- Add Hoa Don
+	- Add Hoa Don (check)
 	- Mangager can Add but can't Delete, Update, View All in NhapSaches
 	- Admin can View everything
 # Daily (delete in the next day)
-	- Complete Hoa Don
-	- Add Bao Cao Cong No
-		+ Idea: Khach Hang, No Dau Thang, Phat Sinh, No Cuoi Thang, Dung ID de truy ra ten khach hang va so tien no
-	- Config Hoa Don to No or not
+	- Add Bao Cao Ton Kho
+		+ Idea: Sach, Ton Dau Thang, Phat Sinh, Ton Cuoi Thang
+		+ Add sum after import to import sach
+		+ Add Check time for sum
+		+ Tinh First of month import = latest of month import of sach - all bill before start of month from the latest import day
+		+ Phat Sinh = Tong so nhap trong thang (NhapSach)
+		+ Ton Cuoi Thang = Trong thang nay Sach.Amount
 # Rant
 	- CLM bo m init la cai migration chac 50 me roi
+	- TonSachDauThang = 
 # Run
 	- Lan Dau Chay He Thong
 		+ Doi Connection String trong file appsettings.json Server = <TenServerCuaBan> , Database = <TenDatabaseCuaBan> , (User Id= sa , Password = <MatKhauCuaBan>)* - * Xoa duoc 
@@ -46,3 +50,5 @@
 					- Id cua User trong bang [dbo].[AspNetUsers], 2
 					- Id cua Manager trong bang [dbo].[AspNetUsers], 3
 		+ Restart APP
+# Playground
+	- First have add

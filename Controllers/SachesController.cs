@@ -23,9 +23,9 @@ namespace QLNS1.Controllers
 
         public async Task<IActionResult> Index()
         {
-              return _context.Sach != null ? 
-                          View(await _context.Sach.ToListAsync()) :
-                          Problem("Entity set 'QLNS1Context.Sach'  is null.");
+            return _context.Sach != null ?
+                        View(await _context.Sach.ToListAsync()) :
+                        Problem("Entity set 'QLNS1Context.Sach'  is null.");
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -70,9 +70,9 @@ namespace QLNS1.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name,Author,Type,Amount,Price,Picture")] Sach sach)
         {
 
-                _context.Add(sach);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            _context.Add(sach);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
 
         }
 
@@ -99,10 +99,7 @@ namespace QLNS1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("SachId,Name,Author,Type,Amount,Price,Picture")] Sach sach)
         {
-            if (id != sach.SachId)
-            {
-                return NotFound();
-            }
+            sach.SachId = id;
 
             if (ModelState.IsValid)
             {
@@ -159,14 +156,65 @@ namespace QLNS1.Controllers
             {
                 _context.Sach.Remove(sach);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool SachExists(int id)
+        public IActionResult TongKet()
         {
-          return (_context.Sach?.Any(e => e.SachId == id)).GetValueOrDefault();
+            return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> TongKet(IFormCollection Form)
+        {
+            Console.WriteLine("Start Running");
+            var Thang = Form["Thang"];
+            Console.WriteLine(Thang);
+            var Sach = _context.Sach.ToList();
+            var viewModelList = new List<HienHoaDon>();
+            foreach (var i in Sach)
+            {
+                var NhapSach = _context.Nhap.FirstOrDefault(s => s.TenSach == i.Name);
+
+                // Check if NhapSach is not null before accessing its properties
+                if (NhapSach != null)
+                {
+                    var TonCuoiNam = i.Amount;
+                    var PhatSinh = _context.Nhap
+                        .Where(o => o.DateImport.Month == Int32.Parse(Thang) && o.TenSach == i.Name)
+                        .Sum(o => o.AmountImport);
+
+                    var TonDauNam = TinhTonDauNam(i.Name, Thang);
+
+                    // Perform further operations or return values as needed
+                    var viewModel = new HienHoaDon
+                    {
+                        TenSach = i.Name,
+                        TonCuoiNam = TonCuoiNam,
+                        PhatSinh = PhatSinh,
+                        TonDauNam = TonDauNam
+                    };
+
+                    // Add the view model to the list
+                    viewModelList.Add(viewModel);
+                }
+            }
+            return View("List",viewModelList);
+            
+        }
+            private bool SachExists(int id)
+            {
+                return (_context.Sach?.Any(e => e.SachId == id)).GetValueOrDefault();
+            }
+            private int TinhTonDauNam(string TenSach, string thang)
+            {
+                var NhapSach = _context.Nhap.Where(s => s.TenSach == TenSach && s.DateImport.Month == Int32.Parse(thang)).ToList();
+                var recordWithHighestDay = NhapSach.OrderByDescending(o => o.DateImport.Day).FirstOrDefault();
+                var HoaDonThang = _context.Nhap.Where(o => o.DateImport.Month == Int32.Parse(thang)).ToList();
+                var HoaDonThangTuNgayNhapCuoiCung = HoaDonThang.Where(o => o.DateImport.Day >= recordWithHighestDay.DateImport.Day).ToList();
+                var TongBan = HoaDonThangTuNgayNhapCuoiCung.Sum(o => o.AmountImport);
+                var ton = recordWithHighestDay.SachSauNhap - TongBan;
+                return ton;
+            }
     }
 }

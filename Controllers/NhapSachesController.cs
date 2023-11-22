@@ -35,7 +35,7 @@ namespace QLNS1.Controllers
         }
         //TDOO: When value come from form, check amount import > 100 and check sachId exist and Sach.Amount < 200 then Sach += AmountImport
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id,TenSach,TacGia,TheLoai,AmountImport,DateImport")] NhapSach nhapSach)
+        public async Task<IActionResult> Create([Bind("Id,TenSach,TacGia,TheLoai,AmountImport,DateImport,SachSauNhap")] NhapSach nhapSach)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace QLNS1.Controllers
                         }
                         nhapSach.DateImport = DateTime.Now;
                         sach.Amount += nhapSach.AmountImport;
-                        Console.WriteLine(nhapSach);
+                        nhapSach.SachSauNhap = sach.Amount;
                         _context.Add(nhapSach);
                         await _context.SaveChangesAsync();
                         

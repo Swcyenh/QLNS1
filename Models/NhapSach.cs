@@ -16,5 +16,6 @@ namespace QLNS1.Models
         public int AmountImport { get; set; }
 
         public DateTime DateImport { get; set; }
+        public int SachSauNhap { get; set; }
     }
 }
